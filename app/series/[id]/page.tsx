@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { client } from "@/lib/client";
+import { client } from "@/lib/microcms";
 
 type Character = {
   name: string;
