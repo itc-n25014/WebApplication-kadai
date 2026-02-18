@@ -1,28 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
+export const revalidate = 0;
 import { client } from "@/app/lib/microcms";
 import Link from "next/link";
 
+// 詳細ページのメイン関数
 export default async function DetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>; // 修正：paramsをPromiseとして定義
 }) {
-  // microCMSからデータを取得
+  // 1. paramsを待機（await）してIDを取り出す
+  const resolvedParams = await params;
+  const id = resolvedParams.id;
+
+  // 2. microCMSからデータを取得
   const dq = await client.get({
     endpoint: "dq-series",
-    contentId: params.id,
+    contentId: id, // 確実にIDを渡す
   });
 
-  // 【チェック用】もしタイトルがない場合、届いているデータを画面に出して確認する
-  if (!dq || !dq.title) {
+  // データが万が一取れなかった場合のガード
+  if (!dq) {
     return (
-      <div style={{ padding: "20px", color: "red" }}>
-        <h1>データ取得エラー</h1>
-        <p>microCMSから正しいデータが届いていないようです。</p>
-        <pre style={{ background: "#eee", padding: "10px" }}>
-          {JSON.stringify(dq, null, 2)}
-        </pre>
-        <Link href="/">一覧に戻る</Link>
+      <div style={{ padding: "50px", textAlign: "center" }}>
+        作品データが見つかりませんでした。
       </div>
     );
   }
@@ -38,7 +39,7 @@ export default async function DetailPage({
         minHeight: "100vh",
       }}
     >
-      {/* タイトル */}
+      {/* 作品タイトル */}
       <h1
         style={{
           fontSize: "2.5rem",
@@ -58,7 +59,7 @@ export default async function DetailPage({
           : "未設定"}
       </p>
 
-      {/* メイン画像：?. を使って安全にアクセス */}
+      {/* メイン画像 */}
       {dq.main_image?.url && (
         <img
           src={dq.main_image.url}
@@ -118,7 +119,7 @@ export default async function DetailPage({
         </section>
       )}
 
-      {/* 戻るボタン（Linkコンポーネントに修正済み） */}
+      {/* 戻るボタン */}
       <div style={{ marginTop: "60px", textAlign: "center" }}>
         <Link
           href="/"
