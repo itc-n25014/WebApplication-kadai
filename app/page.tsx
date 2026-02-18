@@ -18,13 +18,21 @@ export default async function Page() {
   });
 
   return (
-    <main style={{ padding: "20px", backgroundColor: "#000", color: "#fff" }}>
+    <main
+      style={{
+        padding: "40px 20px",
+        backgroundColor: "#fff",
+        color: "#333",
+        minHeight: "100vh",
+      }}
+    >
       <h1>ドラゴンクエスト 作品一覧</h1>
+      {/* グリッドの設定を大きく変更 */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gap: "20px",
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", // 200pxから300pxへ大きく
+          gap: "30px", // 間隔も少し広めに
         }}
       >
         {data.contents.map((dq: DQTitle) => (
@@ -33,22 +41,30 @@ export default async function Page() {
             key={dq.id}
             style={{ textDecoration: "none", color: "inherit" }}
           >
+            {/* カードのデザイン：影をつけて高級感を出す */}
             <div
               style={{
-                border: "2px solid #fff",
-                padding: "10px",
+                border: "1px solid #eee",
+                borderRadius: "12px",
+                padding: "20px", // 中の余白を広く
                 textAlign: "center",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)", // 柔らかい影
+                transition: "transform 0.2s", // 動きの準備
+                backgroundColor: "#fff",
               }}
             >
-              {/* メイン画像がある場合に表示 */}
               {dq.main_image && (
                 <img
                   src={dq.main_image.url}
                   alt={dq.title}
-                  style={{ width: "100%", borderRadius: "8px" }}
+                  style={{
+                    width: "100%",
+                    borderRadius: "8px",
+                    marginBottom: "15px",
+                  }}
                 />
               )}
-              <p style={{ marginTop: "10px", fontWeight: "bold" }}>
+              <p style={{ fontSize: "1.1rem", fontWeight: "bold" }}>
                 {dq.title}
               </p>
             </div>
