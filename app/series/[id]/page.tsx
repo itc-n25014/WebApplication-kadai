@@ -3,23 +3,26 @@ export const revalidate = 0;
 import { client } from "@/app/lib/microcms";
 import Link from "next/link";
 
-// 詳細ページのメイン関数
+type Character = {
+  name: string;
+  image?: {
+    url: string;
+  };
+};
+
 export default async function DetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>; // 修正：paramsをPromiseとして定義
+  params: Promise<{ id: string }>;
 }) {
-  // 1. paramsを待機（await）してIDを取り出す
   const resolvedParams = await params;
   const id = resolvedParams.id;
 
-  // 2. microCMSからデータを取得
   const dq = await client.get({
     endpoint: "dq-series",
-    contentId: id, // 確実にIDを渡す
+    contentId: id,
   });
 
-  // データが万が一取れなかった場合のガード
   if (!dq) {
     return (
       <div style={{ padding: "50px", textAlign: "center" }}>
@@ -32,7 +35,7 @@ export default async function DetailPage({
     <main
       style={{
         padding: "40px 20px",
-        maxWidth: "900px",
+        maxWidth: "1200px",
         margin: "0 auto",
         backgroundColor: "#fff",
         color: "#333",
@@ -51,14 +54,6 @@ export default async function DetailPage({
         {dq.title}
       </h1>
 
-      {/* 発売時期 */}
-      <p style={{ color: "#666", marginBottom: "30px", fontSize: "1.1rem" }}>
-        📅 発売時期：
-        {dq.release_date
-          ? new Date(dq.release_date).toLocaleDateString("ja-JP")
-          : "未設定"}
-      </p>
-
       {/* メイン画像 */}
       {dq.main_image?.url && (
         <img
@@ -72,6 +67,23 @@ export default async function DetailPage({
           }}
         />
       )}
+
+      {/* 発売時期 */}
+      <p
+        style={{
+          fontSize: "1.25rem",
+          fontWeight: "bold",
+          color: "#444",
+          margin: "10px 0 30px",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        発売時期：
+        {dq.release_date
+          ? new Date(dq.release_date).toLocaleDateString("ja-JP")
+          : "未設定"}
+      </p>
 
       {/* ストーリー */}
       {dq.story && (
@@ -92,30 +104,108 @@ export default async function DetailPage({
         </section>
       )}
 
-      {/* 登場人物 */}
-      {dq.characters && (
-        <section>
+      {/* 登場人物セクション */}
+      {dq.character_list && (
+        <section style={{ marginTop: "40px" }}>
+          <h2
+            style={{
+              borderLeft: "5px solid #333",
+              paddingLeft: "15px",
+              marginBottom: "25px",
+            }}
+          >
+            主な登場人物
+          </h2>
+
+          {/* キャラクターを並べるグリッドコンテナ */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+              gap: "30px",
+            }}
+          >
+            {dq.character_list.map((char: Character, index: number) => (
+              <div
+                key={index}
+                className="card-hover"
+                style={{
+                  textAlign: "center",
+                  padding: "10px",
+                  borderRadius: "12px",
+                }}
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    height: "210px",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    justifyContent: "center",
+                    marginBottom: "10px",
+
+                    backgroundColor: "transparent",
+
+                    border: "none",
+                    padding: "5px",
+                  }}
+                >
+                  {char.image?.url ? (
+                    <img
+                      src={char.image.url}
+                      alt={char.name}
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                        objectFit: "contain",
+                        transform: "scale(1.2)",
+                      }}
+                    />
+                  ) : (
+                    <div style={{ width: "100%", height: "100%" }} />
+                  )}
+                </div>
+
+                {/* キャラクター名 */}
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    color: "#333",
+                    minHeight: "1.5em",
+                  }}
+                >
+                  {char.name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+      {/* おすすめBGMセクション */}
+      {dq.recommended_bgm && (
+        <section style={{ marginTop: "40px", marginBottom: "40px" }}>
           <h2
             style={{
               borderLeft: "5px solid #333",
               paddingLeft: "15px",
               marginBottom: "20px",
+              fontSize: "2rem",
             }}
           >
-            主な登場人物
+            おすすめBGM
           </h2>
           <div
+            className="bgm-content"
             style={{
-              whiteSpace: "pre-wrap",
+              fontSize: "1.2rem",
               lineHeight: "1.8",
-              fontSize: "1.1rem",
               padding: "20px",
               backgroundColor: "#f9f9f9",
-              borderRadius: "10px",
+              borderRadius: "12px",
             }}
-          >
-            {dq.characters}
-          </div>
+            dangerouslySetInnerHTML={{ __html: dq.recommended_bgm }}
+          />
         </section>
       )}
 

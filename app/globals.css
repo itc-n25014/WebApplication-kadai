@@ -24,3 +24,14 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.card-hover {
+  display: block !important;
+  transition: all 0.3s ease-out !important;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
+  z-index: 10;
+}
