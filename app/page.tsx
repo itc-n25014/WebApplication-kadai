@@ -21,18 +21,27 @@ export default async function Page() {
     <main
       style={{
         padding: "40px 20px",
-        backgroundColor: "#fff",
+        backgroundColor: "#f8f9fa", // 少しだけグレーにすると白カードが際立ちます
         color: "#333",
         minHeight: "100vh",
       }}
     >
-      <h1>ドラゴンクエスト 作品一覧</h1>
-      {/* グリッドの設定を大きく変更 */}
+      <h1
+        style={{ textAlign: "center", marginBottom: "40px", fontSize: "2rem" }}
+      >
+        ドラゴンクエスト 作品一覧
+      </h1>
+
+      {/* ✅ gridTemplateColumns を "repeat(3, 1fr)" にすることで横3列に固定 
+         ✅ maxWidth を設定して、横に広がりすぎないように調整
+      */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", // 200pxから300pxへ大きく
-          gap: "30px", // 間隔も少し広めに
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "40px",
+          maxWidth: "1100px",
+          margin: "0 auto",
         }}
       >
         {data.contents.map((dq: DQTitle) => (
@@ -41,30 +50,62 @@ export default async function Page() {
             key={dq.id}
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            {/* カードのデザイン：影をつけて高級感を出す */}
             <div
               style={{
                 border: "1px solid #eee",
-                borderRadius: "12px",
-                padding: "20px", // 中の余白を広く
+                borderRadius: "16px",
+                padding: "20px",
                 textAlign: "center",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.08)", // 柔らかい影
-                transition: "transform 0.2s", // 動きの準備
+                boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
                 backgroundColor: "#fff",
+                height: "100%", // カードの高さを揃える
+                transition: "transform 0.3s ease",
               }}
+              // ホバー時に少し浮き上がるようなスタイルを追加したい場合はここを調整
             >
-              {dq.main_image && (
-                <img
-                  src={dq.main_image.url}
-                  alt={dq.title}
+              {dq.main_image ? (
+                <div
                   style={{
                     width: "100%",
+                    aspectRatio: "16/9",
+                    marginBottom: "15px",
+                    overflow: "hidden",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <img
+                    src={dq.main_image.url}
+                    alt={dq.title}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover", // 画像の端を切ってサイズを統一
+                    }}
+                  />
+                </div>
+              ) : (
+                <div
+                  style={{
+                    width: "100%",
+                    aspectRatio: "16/9",
+                    backgroundColor: "#eee",
                     borderRadius: "8px",
                     marginBottom: "15px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
-                />
+                >
+                  <span style={{ color: "#aaa" }}>No Image</span>
+                </div>
               )}
-              <p style={{ fontSize: "1.1rem", fontWeight: "bold" }}>
+              <p
+                style={{
+                  fontSize: "1.1rem",
+                  fontWeight: "bold",
+                  lineHeight: "1.4",
+                }}
+              >
                 {dq.title}
               </p>
             </div>

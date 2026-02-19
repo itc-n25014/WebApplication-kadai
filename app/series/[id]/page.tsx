@@ -3,23 +3,19 @@ export const revalidate = 0;
 import { client } from "@/app/lib/microcms";
 import Link from "next/link";
 
-// 詳細ページのメイン関数
 export default async function DetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>; // 修正：paramsをPromiseとして定義
+  params: Promise<{ id: string }>;
 }) {
-  // 1. paramsを待機（await）してIDを取り出す
   const resolvedParams = await params;
   const id = resolvedParams.id;
 
-  // 2. microCMSからデータを取得
   const dq = await client.get({
     endpoint: "dq-series",
-    contentId: id, // 確実にIDを渡す
+    contentId: id,
   });
 
-  // データが万が一取れなかった場合のガード
   if (!dq) {
     return (
       <div style={{ padding: "50px", textAlign: "center" }}>
