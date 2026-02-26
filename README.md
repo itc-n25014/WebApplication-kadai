@@ -20,7 +20,7 @@ http://localhost:3000/series/9v9x1s7mw
 - TypeScript
 
 ## ディレクトリ構成
-
+```text
 dragonquest-introduction/
 ├── app/
 │ ├── globals.css # 全体のスタイル設定（ホバー演出など）
