@@ -3,36 +3,34 @@
 ドラゴンクエストシリーズのナンバリング作品を紹介するサイトです。
 https://web-application-kadai-sandy.vercel.app/
 
-## 主な機能
-```text
-・作品一覧表示: ドラゴンクエストシリーズの各作品をカード形式で一覧表示します。
-・作品詳細表示: 各作品のメイン画像、発売時期、ストーリーを表示します。
-・キャラクター図鑑: 作品ごとに登場キャラクターを全身画像付きでグリッド表示します。
-・おすすめBGMリンク: リッチエディタを通じて、YouTubeなどへのリンク付きBGM紹介が可能です。
+## 🚀 主な機能
 
-## 使用技術
+* **作品一覧表示**: シリーズ作品をカード形式で一覧表示。ホバー時のアニメーション付き。
+* **作品詳細表示**: 各作品のメイン画像、発売時期、ストーリーを表示。
+* **キャラクター図鑑**: 作品ごとの登場キャラクターを全身画像付きでグリッド表示。
+* **おすすめBGMリンク**: YouTube等へのリンク付きでBGMを紹介。
 
--Next.js (App Router)
+## 🛠 使用技術
 
-- CSS Modules
-- microCMS
-- Vercel
-- TypeScript
+* **Next.js** (App Router)
+* **TypeScript**
+* **microCMS** (ヘッドレスCMS)
+* **Tailwind CSS** & **Custom CSS**
+* **Vercel** (デプロイ環境)
 
-## ディレクトリ構成
+## 📂 ディレクトリ構成
+
 ```text
 dragonquest-introduction/
-├── app/
-│ ├── globals.css # 全体のスタイル設定（ホバー演出など）
-│ ├── layout.tsx # 共通のレイアウト（フォント設定など）
-│ ├── page.tsx # トップページ（作品一覧画面）
-│ └── series/
-│ └── [id]/
-│ └── page.tsx # 各作品の詳細・キャラクター図鑑画面
+├── app/                  # メインの画面（ページ）
+│   ├── layout.tsx        # 共通レイアウト
+│   ├── page.tsx          # トップページ（作品一覧）
+│   ├── globals.css       # 全体のスタイル（ホバー演出等）
+│   └── series/[id]/
+│       └── page.tsx      # 作品詳細・キャラ図鑑
 ├── lib/
-│ └── microcms.ts # microCMSとの通信設定・APIクライアント
-├── public/ # 画像やファビコンなどの静的ファイル
-├── .env.local # 環境変数
-├── next.config.js # Next.jsの設定ファイル
-├── package.json # プロジェクトの依存関係
-└── README.md
+│   └── microcms.ts       # microCMS APIクライアント
+├── public/               # 静的ファイル
+├── .env.local            # 環境変数
+├── next.config.js        # Next.js設定
+└── README.md             # このファイル
