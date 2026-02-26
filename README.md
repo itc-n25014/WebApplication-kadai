@@ -1,7 +1,7 @@
 # ドラゴンクエスト作品紹介サイト
 
 ドラゴンクエストシリーズのナンバリング作品を紹介するサイトです。
-http://localhost:3000/series/9v9x1s7mwでアクセス
+http://localhost:3000/series/9v9x1s7mw
 
 ## 主な機能
 
