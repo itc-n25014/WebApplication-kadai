@@ -1,7 +1,7 @@
 # ドラゴンクエスト作品紹介サイト
 
 ドラゴンクエストシリーズのナンバリング作品を紹介するサイトです。
-http://localhost:3000/series/9v9x1s7mw
+https://web-application-kadai-sandy.vercel.app/
 
 ## 主な機能
 
